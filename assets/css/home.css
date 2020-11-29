@@ -1,0 +1,87 @@
+/* Navigation Bar */
+.app-navbar .nav-link {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: 500;
+  color: white;
+  opacity: 0.8;
+}
+
+.app-navbar .nav-link.active {
+  opacity: 1;
+}
+.app-navbar .nav-link.active:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 25px;
+  height: 5px;
+  background-color: #ffd016;
+  border-radius: 10px;
+}
+
+/* Carousel */
+.carousel,
+.carousel-inner,
+.carousel-item,
+.video-item {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Carousel Vertical */
+.carousel-item-next:not(.carousel-item-left),
+.active.carousel-item-right {
+  -webkit-transform: translateY(100%);
+  transform: translateY(100%);
+}
+
+.carousel-item-prev:not(.carousel-item-right),
+.active.carousel-item-left {
+  -webkit-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+
+/* Video Item */
+.video-item {
+  background-color: #000;
+  /* border-radius: 0.25rem; */
+}
+
+/* Video Touch Layer */
+.video-overlay-layer {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.video-overlay-layer .card {
+  color: white;
+}
+
+.video-overlay-layer .card,
+.video-overlay-layer .card > * {
+  background: none;
+  border: 0;
+}
+
+.video-overlay-layer .card-header {
+  font-weight: 500;
+}
+
+.video-overlay-layer .card-header,
+.video-overlay-layer .card-body {
+  padding-bottom: 0;
+}
+
+.video-overlay-layer .card-body {
+  padding-top: 0;
+}

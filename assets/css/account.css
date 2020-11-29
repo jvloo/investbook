@@ -1,0 +1,48 @@
+/* Account */
+.account-avatar img {
+   border: 4px solid #ffd016;
+   border-radius: 100%;
+}
+
+.account-fullname {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.account-username {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Navigation Bar */
+.app-navbar {
+  background-color: #ffd016;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.app-navbar .nav-link {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: 500;
+  color: #141518;
+}
+
+.app-navbar .nav-link.active {
+  opacity: 1;
+}
+.app-navbar .nav-link.active:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 25px;
+  height: 5px;
+  background-color: #ffd016;
+  border-radius: 10px;
+}
+
+#app {
+  background-color: white;
+}

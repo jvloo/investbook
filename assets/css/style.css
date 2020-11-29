@@ -1,0 +1,122 @@
+/**
+ * Global
+ */
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  background-color: #141518;
+}
+
+/**
+ * Icons
+ */
+.icon {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.icon-sm .feather {
+  width: 25px;
+  height: 25px;
+}
+.icon-lg .feather {
+  width: 40px;
+  height: 40px;
+}
+.icon-xl .feather {
+  width: 60px;
+  height: 60px;
+}
+
+.nav-icon-sm .feather {
+  width: 25px;
+  height: 25px;
+  fill: currentColor
+}
+.nav-icon-lg .feather {
+  width: 40px;
+  height: 40px;
+  fill: currentColor
+}
+.nav-icon-xl .feather {
+  width: 60px;
+  height: 60px;
+  fill: currentColor
+}
+
+/* Icon Button */
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  font-weight: bold;
+  color: #141518;
+  background-color: #ffd016;
+  border-radius: 50%;
+}
+
+/**
+ * Bottom Navbar
+ */
+.bottom-navbar {
+  height: 60px;
+  background-color: #141518;
+}
+
+/* Nav Items */
+.bottom-navbar .nav-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.8;
+}
+.bottom-navbar .nav-link .feather {
+  stroke-width: 3px;
+}
+
+.bottom-navbar .nav-link.active {
+  color: #ffd016;
+  font-weight: 500;
+  opacity: 1;
+}
+.bottom-navbar .nav-link.active .feather {
+  fill: currentColor;
+}
+
+/**
+ * App Content
+ */
+.app-content {
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+}
+
+.app-content,
+.app-backdrop {
+  position: absolute;
+}
+
+/**
+ * App Backdrop
+ */
+.app-backdrop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
