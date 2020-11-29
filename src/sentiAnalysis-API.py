@@ -141,8 +141,8 @@ if __name__ == '__main__':
     # videoId   = data['videoId']
     # commentId = data['commentId']
 
-    videoId = 2
-    commentId = 1
+    videoId = 1
+    commentId = 2
 
     # Analyze comment and set the metric score
     commentMetricScore = setCommentScore(commentId)
