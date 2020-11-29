@@ -54,7 +54,7 @@ class User extends CI_Controller
 	 */
 	public function post()
 	{
-		$action = mb_strtolower($this->input->post('action'));
+		$action = strtolower($this->input->post('action'));
 
 		$fullName  = $this->input->post('fullName');
 		$username  = $this->input->post('username');
