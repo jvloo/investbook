@@ -1,14 +1,14 @@
 ## Development DB
-dbHost = "localhost"
-dbUser = "root"
-dbPwd  = ""
-dbName = "investbook_v1"
+# dbHost = "localhost"
+# dbUser = "root"
+# dbPwd  = ""
+# dbName = "investbook_v1"
 
 # Production DB
-# dbHost = "localhost"
-# dbUser = "uykq9nz44e6q2"
-# dbPwd  = "belinked4u@1234"
-# dbName = "dbtwj24s7ugn5p"
+dbHost = "35.213.150.200:3306"
+dbUser = "uykq9nz44e6q2"
+dbPwd  = "belinked4u@1234"
+dbName = "dbtwj24s7ugn5p"
 
 ################################################################################
 ##                          END OF CONFIGURATION                              ##
