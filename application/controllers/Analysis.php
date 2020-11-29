@@ -24,7 +24,11 @@ class Analysis extends CI_Controller
 			'commentId' => $commentId
 		];
 
-		$commentMetricScore = shell_exec("python $root/src/sentiAnalysis-MySQL.py " . base64_encode(json_encode($data)));
+		if (ENVIRONMENT == 'development') {
+			$commentMetricScore = shell_exec("python $root/src/sentiAnalysis-MySQL.py " . base64_encode(json_encode($data)));
+		} else {
+			$commentMetricScore = shell_exec("python https://investbook.herokuapp.com/src/sentiAnalysis-API.py " . base64_encode(json_encode($data)));
+		}
 
 		// Update the metric score of the video
 		$this->updateMetricScore($videoId);
