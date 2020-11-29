@@ -89,6 +89,9 @@ switch (ENVIRONMENT)
 		exit(1); // EXIT_ERROR
 }
 
+error_reporting(-1);
+ini_set('display_errors', 1);
+
 /*
  *---------------------------------------------------------------
  * SYSTEM DIRECTORY NAME
