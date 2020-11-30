@@ -189,7 +189,7 @@ class Analysis extends CI_Controller
 			$commentPosCount = 0;
 			$commentNegCount = 0;
 
-			foreach ($comments as $comment) {
+			foreach ($comments['comments'] as $comment) {
 				// echo $comment['score'];
 
 				// Record positive comment with score >= 0 (positive)
