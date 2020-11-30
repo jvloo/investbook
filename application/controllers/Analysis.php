@@ -5,6 +5,8 @@ class Analysis extends CI_Controller
 {
 	public function comment()
 	{
+		$root = FCPATH;
+		
 		$videoId   = $this->input->post('videoId');
 		$commentId = $this->input->post('commentId');
 
