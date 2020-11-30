@@ -25,6 +25,7 @@ class Account extends CI_Controller
 		if ($this->session->userdata('userId')) {
 			redirect();
 		}
+
 		// Load page view file
 		$this->load->view('account/login');
 	}
