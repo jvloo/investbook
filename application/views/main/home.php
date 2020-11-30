@@ -738,7 +738,7 @@
           </button>
         </div>
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
-          <?php echo form_open_multipart('api/file/post', ' id="uploadVideoForm"'); ?>
+          <?php echo form_open_multipart(api_url('file/post'), ' id="uploadVideoForm"'); ?>
             <input type="hidden" name="action" value="video">
             <div class="card card-body form-group">
               <label for="videoUploadFile">Select your video file</label>

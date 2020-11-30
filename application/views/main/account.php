@@ -252,7 +252,7 @@
           </button>
         </div>
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
-          <?php echo form_open_multipart('api/file/post', ' id="uploadVideoForm"'); ?>
+          <?php echo form_open_multipart(api_url('file/post'), ' id="uploadVideoForm"'); ?>
             <input type="hidden" name="action" value="video">
             <div class="card card-body form-group">
               <label for="videoUploadFile">Select your video file</label>
@@ -792,7 +792,7 @@
           </button>
         </div>
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
-          <?php echo form_open_multipart('api/file/post', ' id="changeAvatarForm"'); ?>
+          <?php echo form_open_multipart(api_url('file/post'), ' id="changeAvatarForm"'); ?>
             <input type="hidden" name="action" value="avatar">
             <div class="card card-body form-group">
               <label for="avatarUploadFile">Select your image file</label>
@@ -894,7 +894,7 @@
           </button>
         </div>
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
-          <?php echo form_open('api/user/update', ' id="editProfileForm"'); ?>
+          <?php echo form_open(api_url('user/update'), ' id="editProfileForm"'); ?>
             <div class="form-group">
               <label for="newFullName">Full Name</label>
               <input type="text" id="newFullName" class="form-control" name="fullName" autofocus>
