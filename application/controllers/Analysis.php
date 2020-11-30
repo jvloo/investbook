@@ -38,7 +38,7 @@ class Analysis extends CI_Controller
 		$response = curl_exec($ch);
 		$comment = json_decode($response, true);
 
-		print_r($response);
+		print_r($comment);
 	}
 
 	public function tmp()
