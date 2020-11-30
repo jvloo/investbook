@@ -6,7 +6,7 @@ class Analysis extends CI_Controller
 	public function comment()
 	{
 		$root = FCPATH;
-		
+
 		$videoId   = $this->input->post('videoId');
 		$commentId = $this->input->post('commentId');
 
@@ -40,7 +40,7 @@ class Analysis extends CI_Controller
 		$response = curl_exec($ch);
 		$comment = json_decode($response, true);
 
-		$comment = $comment[0]['content'] ?? '';
+		$content = $comment[0]['content'] ?? '';
 
 
 		// Get all comments of the video
