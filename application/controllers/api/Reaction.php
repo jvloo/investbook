@@ -62,7 +62,7 @@ class Reaction extends CI_Controller
 		$videoId = $this->input->post('videoId');
 
 		// Get user id
-		$userId = $this->session->userdata('userId');
+		$userId = $this->input->post('userId');
 		if (empty($userId)) {
 			echo json_encode([ 'error' => 'Please login your account.' ]);
 			return;
