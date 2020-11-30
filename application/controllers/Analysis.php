@@ -38,7 +38,7 @@ class Analysis extends CI_Controller
 		$response = curl_exec($ch);
 		$comment = json_decode($response, true);
 
-		$content = $comment['content'];
+		$content = $comment[0]['content'];
 
 		// Get all comments of the video
 		$comments = [];
