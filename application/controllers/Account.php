@@ -26,8 +26,6 @@ class Account extends CI_Controller
 			redirect();
 		}
 
-		echo $this->session->userdata('userId');
-
 		// Load page view file
 		$this->load->view('account/login');
 	}
@@ -41,5 +39,12 @@ class Account extends CI_Controller
 		$this->session->sess_destroy();
 		// Redirect to login page
 		redirect('account/login');
+	}
+
+
+	public function setsession()
+	{
+		$userId = $this->input->post('userId');
+		$this->session->set_userdata('userId', $userId);
 	}
 }

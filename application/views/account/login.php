@@ -212,9 +212,22 @@
             if (data.redirectUrl) {
               $('#pageLoadingModal').modal('show');
 
-              document.cookie = "userId="+data.userId;
+              var userId      = data.userId;
+              var redirectUrl = data.redirectUrl;
 
-              window.location.replace(data.redirectUrl);
+              // Set session
+              $.ajax({
+                url: "<?= site_url('account/setsession'); ?>",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                  userId:userId
+                },
+                success: function(data) {
+                  window.location.replace(redirectUrl);
+                }
+              });
+
             } else {
               alert(data.errorMessage);
             }
