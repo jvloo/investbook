@@ -83,8 +83,6 @@ class Comment extends CI_Controller
 
 	public function get_raw()
 	{
-		$this->load->helper('date');
-
 		$videoId   = $this->input->post('videoId');
 		$commentId = $this->input->post('commentId');
 
@@ -93,13 +91,11 @@ class Comment extends CI_Controller
 		}
 
 		if (! empty($commentId)) {
-			$this->db->where('comment_id', $commentId);
+			$this->db->where('id', $commentId);
 		}
 
 		// Get all comments
-		$comments = $this->db
-			->get('comment')
-			->result_array();
+		$comments = $this->db->get('comment')->result_array();
 
 		// Return results
 		echo json_encode($comments);
