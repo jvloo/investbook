@@ -221,9 +221,10 @@
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                  userId:userId
+                  userId: userId
                 },
                 success: function(data) {
+                  console.log(data);
                   window.location.replace(redirectUrl);
                 }
               });

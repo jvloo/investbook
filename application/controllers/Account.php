@@ -46,5 +46,7 @@ class Account extends CI_Controller
 	{
 		$userId = $this->input->post('userId');
 		$this->session->set_userdata('userId', $userId);
+
+		echo json_encode([ 'userId' => $this->session->userdata('userId') ]);
 	}
 }
