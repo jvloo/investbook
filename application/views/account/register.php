@@ -215,7 +215,7 @@
         $(this).removeClass('is-valid is-invalid');
 
         $.ajax({
-          url: "<?= api_url('user/get'); ?>",
+          url: "<?= api_url('frontend/user/get'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
@@ -306,7 +306,7 @@
         }
 
         $.ajax({
-          url: "<?= api_url('user/post'); ?>",
+          url: "<?= api_url('frontend/user/post'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {

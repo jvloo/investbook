@@ -200,7 +200,7 @@
         }
 
         $.ajax({
-          url: "<?= api_url('user/post'); ?>",
+          url: "<?= api_url('frontend/user/post'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
@@ -217,7 +217,7 @@
 
               // Set session
               $.ajax({
-                url: "<?= site_url('account/setsession'); ?>",
+                url: "<?= app_url('account/setsession'); ?>",
                 type: 'POST',
                 dataType: 'json',
                 data: {

@@ -14,62 +14,31 @@ class Analysis extends CI_Controller
 		// $commentId = 1;
 
 		// Get content of the comment
-		// $content = $this->db
-		// 	->where('id', $commentId)
-		// 	->get('comment')
-		// 	->row('content');
+		$ch   = curl_init(api_url('analysis/comment/get'));
+		$data = http_build_query([
+			'comment_id' => $commentId
+		]);
 
-		// Create a new cURL resource
-		$ch   = curl_init(api_url('comment/get_raw'));
-
-		// Setup request to send JSON via POST
-		$data = http_build_query([ 'commentId' => $commentId ]);
-		$payload = json_encode([ 'data' => $data ]);
-
-		// Attach encoded JSON string to the POST fields
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-		// Set the content type to application/json
-		// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
-
-		// Return response instead of output string
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-		// Execute the POST request
-		$response = curl_exec($ch);
-		$comment = json_decode($response, true);
-
+		$comment = json_decode(curl_exec($ch), true);
 		$content = $comment[0]['content'] ?? '';
 
-
 		// Get all comments of the video
-		$comments = [];
-		// $commentQuery = $this->db
-		// 	->where('video_id', $videoId)
-		// 	->get('comment');
+		$ch   = curl_init(api_url('analysis/comment/get'));
+		$data = http_build_query([
+			'video_id' => $videoId
+		]);
 
-		// Create a new cURL resource
-		$ch   = curl_init(api_url('comment/get'));
-
-		// Setup request to send JSON via POST
-		$data = http_build_query([ 'videoId' => $videoId ]);
-		$payload = json_encode([ 'data' => $data ]);
-
-		// Attach encoded JSON string to the POST fields
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-		// Set the content type to application/json
-		// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
-
-		// Return response instead of output string
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-		// Execute the POST request
-		$response = curl_exec($ch);
-		$response = json_decode($response, true);
+		$response = json_decode(curl_exec($ch), true);
 
+		$comments = [];
 		foreach ($response['comments'] as $comment) {
 			$comments[] = $comment['content'];
 		}
@@ -80,22 +49,23 @@ class Analysis extends CI_Controller
 			'comments' => $comments
 		];
 
-		$results = shell_exec("python $root/src/sentiAnalysis.py " . base64_encode(json_encode($data)));
+		$response = shell_exec("python $root/src/sentiAnalysis.py " . base64_encode(json_encode($data)));
 
-		print_r($results);
-		return;
-
-	}
-
-	public function tmp()
-	{
-		$score    = $results['score'];
-		$keywords = $results['keywords'];
-
+		$score    = $response['score'];
+		$keywords = $response['keywords'];
 
 		// Update the score of the comment
-		$this->db->where('id', $commentId);
-		$this->db->update('comment', [ 'score' => $score ]);
+		$ch   = curl_init(api_url('analysis/comment/update'));
+		$data = http_build_query([
+			'comment_id' => $commentId,
+			'score'      => $score
+		]);
+
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		curl_exec($ch);
 
 		// Set the comment as last comment of the video
 		$this->setVideoLastComment($commentId, $videoId);
@@ -106,23 +76,46 @@ class Analysis extends CI_Controller
 			$count   = $keyword[1];
 
 			// Check if keyword already exists
-			$keyword = $this->db
-				->where('video_id', $videoId)
-				->like('content', $content)
-				->get('keyword')
-				->row_array();
+			$ch   = curl_init(api_url('analysis/keyword/get'));
+			$data = http_build_query([
+				'video_id' => $videoId,
+				'content'  => $content
+			]);
+
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+			$keyword = json_decode(curl_exec($ch), true);
 
 			if (! empty($keyword)) {
 				// Update keyword count
-				$this->db->where('id', $keyword['id']);
-				$this->db->update('keyword', [ 'count' => $count ]);
-			} else {
-				// Create new keyword
-				$this->db->insert('keyword', [
+				$ch   = curl_init(api_url('analysis/keyword/get'));
+				$data = http_build_query([
+					'keyword_id' => $keyword[0]['id'],
+					'count'      => $count
+				]);
+
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+				curl_exec($ch);
+			}
+			// Create new keyword
+			else {
+				$ch   = curl_init(api_url('analysis/keyword/post'));
+				$data = http_build_query([
 					'video_id' => $videoId,
 					'content'  => $content,
 					'count'    => $count
 				]);
+
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+				curl_exec($ch);
 			}
 		}
 
@@ -136,158 +129,137 @@ class Analysis extends CI_Controller
 		$this->updateMetricScore($videoId);
 	}
 
+	// -----------------------------------------------------------------------
+
+	/**
+	 * Set the comment as last comment of the video
+	 *
+	 * @param int $commentId Comment to be set as last comment
+	 * @param int $videoId   Target video
+	 */
+	private function setVideoLastComment($commentId, $videoId)
+	{
+		// Get metric of the video
+		$ch   = curl_init(api_url('analysis/metric/get'));
+		$data = http_build_query([
+			'video_id' => $videoId
+		]);
+
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		$metric = json_decode(curl_exec($ch), true);
+
+		// Check if metric already exists
+		if (! empty($metric)) {
+			$metricId = $metric[0]['id'];
+		}
+		// Create new metric
+		else {
+			$ch   = curl_init(api_url('analysis/metric/post'));
+			$data = http_build_query([
+				'video_id' => $videoId
+			]);
+
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+			$metric   = json_decode(curl_exec($ch), true);
+			$metricId = $metric[0]['id'];
+		}
+
+		// Set last comment id
+		$ch   = curl_init(api_url('analysis/metric/update'));
+		$data = http_build_query([
+			'metric_id'       => $metricId,
+			'metric'				  => ['comment_last_id' => $commentId]
+		]);
+
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		curl_exec($ch);
+	}
+
+	/**
+	 * Update metric score of the video
+	 *
+	 * @param  int $videoId Target video
+	 * @return [type]          [description]
+	 */
 	private function updateMetricScore($videoId)
 	{
 		// Get video metric
-		// $metric = $this->db
-		// 	->where('video_id', $videoId)
-		// 	->get('metric')
-		// 	->row_array();
+		$ch   = curl_init(api_url('analysis/metric/get'));
+		$data = http_build_query([
+			'videoId' => $videoId
+		]);
 
-		// Create a new cURL resource
-		$ch   = curl_init(api_url('metric/get'));
-
-		// Setup request to send JSON via POST
-		$data = http_build_query([ 'videoId' => $videoId ]);
-
-		$payload = json_encode([ 'data' => $data ]);
-
-		// Attach encoded JSON string to the POST fields
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-		// Set the content type to application/json
-		// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
-
-		// Return response instead of output string
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-		// Execute the POST request
-		$response = curl_exec($ch);
-		$metric   = json_decode($response, true);
-
-		// Close cURL resource
-		curl_close($ch);
+		$metric   = json_decode(curl_exec($ch), true);
 
 		if (empty($metric)) {
-			$metric = [
-				'video_id'					   => $videoId,
+			$ch   = curl_init(api_url('analysis/metric/post'));
+			$data = http_build_query([
+				'video_id' => $videoId
+			]);
 
-				'reaction_pos_count'   => 0,
-				'reaction_neg_count'   => 0,
-				'reaction_pos_percent' => 50,
-				'reaction_neg_percent' => 50,
-				'reaction_last_id'     => 0,
-
-				'comment_pos_count'    => 0,
-				'comment_neg_count'    => 0,
-				'comment_pos_percent'  => 50,
-				'comment_neg_percent'  => 50,
-				'comment_last_id'      => 0,
-
-				'positiveness'			   => 50,
-				'negativeness'			   => 50
-			];
-
-			// $this->db->insert('metric', $metric);
-			// $metricId = $this->db->insert_id();
-
-			// Create a new cURL resource
-			$ch   = curl_init(api_url('metric/post'));
-
-			// Setup request to send JSON via POST
-			$data = http_build_query($metric);
-			$payload = json_encode([ 'data' => $data ]);
-
-			// Attach encoded JSON string to the POST fields
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-			// Set the content type to application/json
-			// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
-
-			// Return response instead of output string
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-			// Execute the POST request
-			$response = curl_exec($ch);
-			$metric   = json_decode($response, true);
-
-			$metricId = $metric['id'];
+			$metric   = json_decode(curl_exec($ch), true);
+			$metricId = $metric[0]['id'];
 		}
 
 		else {
-			$metricId = $metric['id'];
-			unset($metric['id']);
+			$metricId = $metric[0]['id'];
+			unset($metric[0]['id']);
+
+			$metric = $metric[0];
 		}
 
 		// Check if last comment counted in metric
 		$updateCommentMetric = false;
 
-		// $lastComment = $this->db
-		// 	->where('video_id', $videoId)
-		// 	->order_by('created_date', 'DESC')
-		// 	->limit(1)
-		// 	->get('comment')
-		// 	->row_array();
-		// Create a new cURL resource
-		$ch   = curl_init(api_url('comment/get_last'));
+		$ch   = curl_init(api_url('analysis/comment/get_last'));
+		$data = http_build_query([
+			'videoId' => $videoId
+		]);
 
-		// Setup request to send JSON via POST
-		$data = http_build_query([ 'videoId' => $videoId ]);
-		$payload = json_encode([ 'data' => $data ]);
-
-		// Attach encoded JSON string to the POST fields
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-		// Set the content type to application/json
-		// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
-
-		// Return response instead of output string
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-		// Execute the POST request
-		$response    = curl_exec($ch);
-		$lastComment = json_decode($response, true);
+		$lastComment = json_decode(curl_exec($ch), true);
 
 		// If last comment not counted, update the comment metric
 		if (! empty($lastComment)) { // && $lastComment['id'] != $metric['comment_last_id']) {
 			$updateCommentMetric = true;
 
 			// Get all comments of the video
-			// $comments = $this->db
-			// 	->where('video_id', $videoId)
-			// 	->get('comment')
-			// 	->result_array();
-			// Create a new cURL resource
-			$ch   = curl_init(api_url('comment/get'));
+			$ch   = curl_init(api_url('analysis/comment/get'));
+			$data = http_build_query([
+				'videoId' => $videoId
+			]);
 
-			// Setup request to send JSON via POST
-			$data = http_build_query([ 'videoId' => $videoId ]);
-			$payload = json_encode([ 'data' => $data ]);
-
-			// Attach encoded JSON string to the POST fields
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-			// Set the content type to application/json
-			// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
-
-			// Return response instead of output string
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-			// Execute the POST request
-			$response = curl_exec($ch);
-			$comments = json_decode($response, true);
+			$comments = json_decode(curl_exec($ch), true);
 
 			// Calculate positive and negative comment counts
 			$commentPosCount = 0;
 			$commentNegCount = 0;
 
-			foreach ($comments['comments'] as $comment) {
-				// echo $comment['score'];
-
+			foreach ($comments as $comment) {
 				// Record positive comment with score >= 0 (positive)
 				if ($comment['score'] > 0) {
 					$commentPosCount++;
@@ -310,61 +282,33 @@ class Analysis extends CI_Controller
 		$updateReactionMetric = false;
 
 		// $lastReaction = $this->db
-		// 	->where('video_id', $videoId)
-		// 	->order_by('created_date', 'DESC')
-		// 	->limit(1)
-		// 	->get('reaction')
-		// 	->row_array();
-		// Create a new cURL resource
-		$ch   = curl_init(api_url('reaction/get_last'));
+		$ch   = curl_init(api_url('analysis/reaction/get_last'));
+		$data = http_build_query([
+			'videoId' => $videoId
+		]);
 
-		// Setup request to send JSON via POST
-		$data = http_build_query([ 'videoId' => $videoId ]);
-		$payload = json_encode([ 'data' => $data ]);
-
-		// Attach encoded JSON string to the POST fields
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-		// Set the content type to application/json
-		// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
-
-		// Return response instead of output string
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-		// Execute the POST request
-		$response     = curl_exec($ch);
-		$lastReaction = json_decode($response, true);
+		$lastReaction = json_decode(curl_exec($ch), true);
 
 		// If last reaction not counted, update the comment metric
 		if (! empty($lastReaction)) { // && $lastReaction['id'] != $metric['reaction_last_id']) {
 			$updateReactionMetric = true;
 
 			// Get all reactions of the video
-			// $reactions = $this->db
-			// 	->where('video_id', $videoId)
-			// 	->get('reaction')
-			// 	->result_array();
-			// Create a new cURL resource
-			$ch   = curl_init(api_url('reaction/get_raw'));
-
-			// Setup request to send JSON via POST
-			$data = http_build_query([ 'videoId' => $videoId ]);
-			$payload = json_encode([ 'data' => $data ]);
+			$ch   = curl_init(api_url('analysis/reaction/get'));
+			$data = http_build_query([
+				'videoId' => $videoId
+			]);
 
 			// Attach encoded JSON string to the POST fields
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-			// Set the content type to application/json
-			// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
-
-			// Return response instead of output string
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-			// Execute the POST request
-			$response  = curl_exec($ch);
-			$reactions = json_decode($response, true);
+			$reactions = json_decode(curl_exec($ch), true);
 
 			// Calculate positive and negative reaction counts
 			$reactionPosCount = 0;
@@ -390,14 +334,13 @@ class Analysis extends CI_Controller
 		// Update the total metric score (positiveness)
 		if ($updateCommentMetric OR $updateReactionMetric) {
 
+			// Calculate the comment positiveness percent
 			if ($updateCommentMetric) {
-				// Calculate the comment positiveness percent
 				$metric['comment_pos_percent'] = ($commentPosCount / count($comments)) * 100;
 				$metric['comment_neg_percent'] = ($commentNegCount / count($comments)) * 100;
 			}
-
+			// Calculate the reaction positiveness percent
 			if ($updateReactionMetric) {
-				// Calculate the reaction positiveness percent
 				$metric['reaction_pos_percent'] = ($reactionPosCount / count($reactions)) * 100;
 				$metric['reaction_neg_percent'] = ($reactionNegCount / count($reactions)) * 100;
 			}
@@ -409,29 +352,17 @@ class Analysis extends CI_Controller
 			$metric['negativeness']  = ($metric['comment_neg_percent'] * 8/10) + ($metric['reaction_neg_percent'] * 2/10);
 
 			// Make a final update on metric score
-			// $this->db->where('id', $metricId);
-			// $this->db->update('metric', $metric);
+			$ch   = curl_init(api_url('analysis/metric/update'));
+			$data = http_build_query([
+				'metric_id' => $metricId,
+				'metric'    => $metric
+			]);
 
-			// Create a new cURL resource
-			$ch   = curl_init(api_url('reaction/get'));
-
-			// Setup request to send JSON via POST
-			$data = http_build_query([ 'metricId' => $metricId, 'metric' => $metric ]);
-			$payload = json_encode([ 'data' => $data ]);
-
-			// Attach encoded JSON string to the POST fields
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-			// Set the content type to application/json
-			// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
-
-			// Return response instead of output string
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-			// Execute the POST request
 			curl_exec($ch);
-			// $reactions = json_decode($response, true);
 
 			// Generate results
 			$responseText  = 'Comment +ve %: ' . $metric['comment_pos_percent'] . "\n";

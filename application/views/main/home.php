@@ -276,7 +276,7 @@
         }
 
         $.ajax({
-          url: "<?= api_url('comment/post'); ?>",
+          url: "<?= api_url('frontend/comment/post'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
@@ -330,7 +330,7 @@
 
             // Trigger comment analysis
             $.ajax({
-              url: "<?= site_url('analysis/comment'); ?>",
+              url: "<?= app_url('analysis/comment'); ?>",
               type: 'POST',
               data: {
                 videoId: videoId,
@@ -338,7 +338,7 @@
               },
               success: function(response) {
                 console.log(response);
-                
+
                 response = JSON.parse(response);
                 console.log(response.plainText);
 
@@ -642,7 +642,7 @@
         $('#metricKeywords').empty();
 
         $.ajax({
-          url: "<?= api_url('keyword/get'); ?>",
+          url: "<?= api_url('frontend/keyword/get'); ?>",
           type: 'POST',
           data: {
             videoId: videoId
@@ -741,7 +741,7 @@
           </button>
         </div>
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
-          <?php echo form_open_multipart(api_url('file/post'), ' id="uploadVideoForm"'); ?>
+          <?php echo form_open_multipart(api_url('frontend/file/post'), ' id="uploadVideoForm"'); ?>
             <input type="hidden" name="action" value="video">
             <input type="hidden" name="userId" value="<?= $this->session->userdata('userId'); ?>">
             <div class="card card-body form-group">
@@ -982,7 +982,7 @@
 
             // Save video to database
             $.ajax({
-              url: "<?= api_url('file/post'); ?>",
+              url: "<?= api_url('frontend/file/post'); ?>",
               type: 'POST',
               data: formData,
               cache: false,
@@ -1102,7 +1102,7 @@
       // Save video handler
       $('#saveVideoBtn').click(function() {
         $.ajax({
-          url: "<?= api_url('video/post'); ?>",
+          url: "<?= api_url('frontend/video/post'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
@@ -1318,7 +1318,7 @@
   <script>
     $(function() {
       $.ajax({
-        url: "<?= api_url('video/get'); ?>",
+        url: "<?= api_url('frontend/video/get'); ?>",
         type: 'GET',
         dataType: 'json',
         success: function(results) {
@@ -1569,7 +1569,7 @@
         }
 
         $.ajax({
-          url: "<?= api_url('reaction/post'); ?>",
+          url: "<?= api_url('frontend/reaction/post'); ?>",
           type: 'POST',
           // dataType: 'json',
           data: {
@@ -1583,7 +1583,7 @@
 
             // Trigger reaction analysis
             $.ajax({
-              url: "<?= site_url('analysis/reaction'); ?>",
+              url: "<?= app_url('analysis/reaction'); ?>",
               type: 'POST',
               data: {
                 videoId: videoId
@@ -1742,7 +1742,7 @@
     $(function() {
       $.getReactions = function(videoId) {
         $.ajax({
-          url: "<?= api_url('reaction/get'); ?>",
+          url: "<?= api_url('frontend/reaction/get'); ?>",
           type: 'POST',
           data: {
             videoId: videoId,
@@ -1772,7 +1772,7 @@
 
       $.getComments = function(videoId) {
         $.ajax({
-          url: "<?= api_url('comment/get'); ?>",
+          url: "<?= api_url('frontend/comment/get'); ?>",
           type: 'POST',
           data: {
             videoId: videoId,

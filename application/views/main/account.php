@@ -252,7 +252,7 @@
           </button>
         </div>
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
-          <?php echo form_open_multipart(api_url('file/post'), ' id="uploadVideoForm"'); ?>
+          <?php echo form_open_multipart(api_url('frontend/file/post'), ' id="uploadVideoForm"'); ?>
             <input type="hidden" name="action" value="video">
             <input type="hidden" name="userId" value="<?= $this->session->userdata('userId'); ?>">
             <div class="card card-body form-group">
@@ -493,7 +493,7 @@
 
             // Save video to database
             $.ajax({
-              url: "<?= api_url('file/post'); ?>",
+              url: "<?= api_url('frontend/file/post'); ?>",
               type: 'POST',
               data: formData,
               cache: false,
@@ -613,7 +613,7 @@
       // Save video handler
       $('#saveVideoBtn').click(function() {
         $.ajax({
-          url: "<?= api_url('video/post'); ?>",
+          url: "<?= api_url('frontend/video/post'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
@@ -793,7 +793,7 @@
           </button>
         </div>
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
-          <?php echo form_open_multipart(api_url('file/post'), ' id="changeAvatarForm"'); ?>
+          <?php echo form_open_multipart(api_url('frontend/file/post'), ' id="changeAvatarForm"'); ?>
             <input type="hidden" name="action" value="avatar">
             <input type="hidden" name="userId" value="<?= $this->session->userdata('userId'); ?>">
             <div class="card card-body form-group">
@@ -896,7 +896,7 @@
           </button>
         </div>
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
-          <?php echo form_open(api_url('user/update'), ' id="editProfileForm"'); ?>
+          <?php echo form_open(api_url('frontend/user/update'), ' id="editProfileForm"'); ?>
             <input type="hidden" name="userId" value="<?= $this->session->userdata('userId'); ?>">
             <div class="form-group">
               <label for="newFullName">Full Name</label>
@@ -950,7 +950,7 @@
         $(this).removeClass('is-valid is-invalid');
 
         $.ajax({
-          url: "<?= api_url('user/get'); ?>",
+          url: "<?= api_url('frontend/user/get'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
