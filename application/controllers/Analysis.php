@@ -72,22 +72,21 @@ class Analysis extends CI_Controller
 			$comments[] = $comment['content'];
 		}
 
-		print_r($comments);
+		// Run analysis
+		$data = [
+			'content'  => $content,
+			'comments' => $comments
+		];
+
+		$results = shell_exec("python $root/src/sentiAnalysis.py " . base64_encode(json_encode($data)));
+
+		print_r($results);
+		return;
 
 	}
 
 	public function tmp()
 	{
-
-
-
-
-		// Run analysis
-		$results  = $this->runAnalysis($content, $comments);
-
-		print_r($results);
-		return;
-
 		$score    = $results['score'];
 		$keywords = $results['keywords'];
 
