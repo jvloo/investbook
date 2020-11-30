@@ -220,6 +220,7 @@
             }
           },
           error: function(res) {
+            console.log(res.responseText);
             alert('An unexpected error encountered.')
           },
           beforeSend: function() {
