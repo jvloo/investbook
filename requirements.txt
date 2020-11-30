@@ -1,5 +1,1 @@
 nltk==3.5
-tokenize
-probability
-corpus
-punkt
