@@ -1572,7 +1572,7 @@
           // dataType: 'json',
           data: {
             videoId: videoId,
-            userId: <?= $this->session->userdata('userId'); ?>
+            userId: <?= $this->session->userdata('userId'); ?>,
             likeReaction: likeReaction,
             dislikeReaction: dislikeReaction
           },
