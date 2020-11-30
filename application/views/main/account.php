@@ -955,7 +955,7 @@
           dataType: 'json',
           data: {
             username: $(btn).val(),
-            userId: <?= $this->session->userdata('userId')
+            userId: <?= $this->session->userdata('userId'); ?>
           },
           success: function(data) {
             if (data.exist) {
