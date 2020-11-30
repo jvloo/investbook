@@ -81,6 +81,23 @@ class Comment extends CI_Controller
 		echo json_encode($results);
 	}
 
+	public function get_raw()
+	{
+		$this->load->helper('date');
+
+		$videoId = $this->input->post('videoId');
+		$userId  = $this->input->post('userId');
+
+		// Get all comments
+		$comments = $this->db
+			->where('video_id', $videoId)
+			->get('comment')
+			->result_array();
+
+		// Return results
+		echo json_encode($comments);
+	}
+
 	/**
 	 * Get last comment of a specific video
 	 */

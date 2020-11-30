@@ -18,7 +18,7 @@ class Analysis extends CI_Controller
 		// 	->row('content');
 
 		// Create a new cURL resource
-		$ch   = curl_init(api_url('comment/get'));
+		$ch   = curl_init(api_url('comment/get_raw'));
 
 		// Setup request to send JSON via POST
 		$data = http_build_query([ 'commentId' => $commentId ]);
