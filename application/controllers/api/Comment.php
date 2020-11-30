@@ -47,7 +47,8 @@ class Comment extends CI_Controller
 				->row_array();
 
 			if (empty($author['avatar_url'])) {
-				$author['avatar_url'] = base_url('assets/img/ui/avatar-dummy.jpg');
+				// $author['avatar_url'] = base_url('assets/img/ui/avatar-dummy.jpg');
+				$author['avatar_url'] = 'http://dev.senangprint.com/investbook/assets/img/ui/avatar-dummy.jpg';
 			}
 
 			// Check if current user is the author
@@ -75,6 +76,25 @@ class Comment extends CI_Controller
 
 		// Get total comment count
 		$results['commentCount'] = count($comments);
+
+		// Return results
+		echo json_encode($results);
+	}
+
+	/**
+	 * Get last comment of a specific video
+	 */
+	public function get_last()
+	{
+		$videoId = $this->input->post('videoId');
+
+		// Get last comment
+		$results = $this->db
+			->where('video_id', $videoId)
+			->order_by('created_date', 'DESC')
+			->limit(1)
+			->get('comment')
+			->row_array();
 
 		// Return results
 		echo json_encode($results);
@@ -122,7 +142,8 @@ class Comment extends CI_Controller
 			->row_array();
 
 		if (empty($author['avatar_url'])) {
-			$author['avatar_url'] = base_url('assets/img/ui/avatar-dummy.jpg');
+			// $author['avatar_url'] = base_url('assets/img/ui/avatar-dummy.jpg');
+			$author['avatar_url'] = 'http://dev.senangprint.com/investbook/assets/img/ui/avatar-dummy.jpg';
 		}
 
 		// Check if current user is the author

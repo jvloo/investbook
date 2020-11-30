@@ -45,7 +45,8 @@ class Video extends CI_Controller
 				->row_array();
 
 			if (empty($author['avatar_url'])) {
-				$author['avatar_url'] = base_url('assets/img/ui/avatar-dummy.jpg');
+				// $author['avatar_url'] = base_url('assets/img/ui/avatar-dummy.jpg');
+				$author['avatar_url'] = 'http://dev.senangprint.com/assets/img/ui/avatar-dummy.jpg';
 			}
 
 			// Get video metric
@@ -110,7 +111,8 @@ class Video extends CI_Controller
 			->row_array();
 
 		if (empty($author['avatar_url'])) {
-			$author['avatar_url'] = base_url('assets/img/ui/avatar-dummy.jpg');
+			// $author['avatar_url'] = base_url('assets/img/ui/avatar-dummy.jpg');
+			$author['avatar_url'] = 'http://dev.senangprint.com/assets/img/ui/avatar-dummy.jpg';
 		}
 
 		// Generate metric

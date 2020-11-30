@@ -52,6 +52,25 @@ class Reaction extends CI_Controller
 	}
 
 	/**
+	 * Get last comment of a specific video
+	 */
+	public function get_last()
+	{
+		$videoId = $this->input->post('videoId');
+
+		// Get last comment
+		$results = $this->db
+			->where('video_id', $videoId)
+			->order_by('created_date', 'DESC')
+			->limit(1)
+			->get('reaction')
+			->row_array();
+
+		// Return results
+		echo json_encode($results);
+	}
+
+	/**
 	 * Add new reaction on specific video
 	 */
 	public function post()

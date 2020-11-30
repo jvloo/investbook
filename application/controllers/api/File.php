@@ -46,7 +46,8 @@ class File extends CI_Controller
 			$filename   = $uploadData['file_name'];
 
 			// Set resource URL
-			$sourceUrl  = base_url('assets/uploads/video/' . $filename);
+			// $sourceUrl  = base_url('assets/uploads/video/' . $filename);
+			$sourceUrl = 'http://dev.senangprint.com/investbook/assets/uploads/video/' . $filename;
 
 			// Save data
 			$this->db->insert('video', [
@@ -98,7 +99,8 @@ class File extends CI_Controller
 			$filename   = $uploadData['file_name'];
 
 			// Set resource URL
-			$sourceUrl  = base_url('assets/uploads/avatar/' . $filename);
+			// $sourceUrl  = base_url('assets/uploads/avatar/' . $filename);
+			$sourceUrl = 'http://dev.senangprint.com/investbook/assets/uploads/avatar/' . $filename;
 
 			// Update user avatar
 			$this->db->where('id', $userId);
