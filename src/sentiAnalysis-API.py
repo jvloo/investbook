@@ -60,8 +60,8 @@ def textAnalysis(message):
 def setCommentScore(commentId):
     # Fetch comment by commentId
     response = requests.get(apiUrl+"/comment/get?comment_id="+str(commentId))
-    print(response.text)
-    exit()
+    # print(response.text)
+    # exit()
     comment  = json.loads(response.text)
 
     # Run text analysis on the content

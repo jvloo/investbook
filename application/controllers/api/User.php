@@ -10,12 +10,18 @@ class User extends CI_Controller
 	public function get()
 	{
 		$username = $this->input->post('username');
+		$userId   = $this->input->post('userId');
+
+		if (! empty($username)) {
+			$this->db->where('username', $username);
+		}
+
+		if (! empty($userId)) {
+			$this->db->where('id', $userId);
+		}
 
 		// Fetch user by username
-		$user = $this->db
-			->where('username', $username)
-			->get('user')
-			->row();
+		$user = $this->db->get('user')->row();
 
 		if (empty($user)) {
 			$results['exist'] = false;

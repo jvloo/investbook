@@ -276,7 +276,7 @@
         }
 
         $.ajax({
-          url: "<?= site_url('/api/comment/post'); ?>",
+          url: "<?= api_url('comment/post'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
@@ -639,7 +639,7 @@
         $('#metricKeywords').empty();
 
         $.ajax({
-          url: "<?= site_url('/api/keyword/get'); ?>",
+          url: "<?= api_url('keyword/get'); ?>",
           type: 'POST',
           data: {
             videoId: videoId
@@ -978,7 +978,7 @@
 
             // Save video to database
             $.ajax({
-              url: "<?= site_url('/api/file/post'); ?>",
+              url: "<?= api_url('file/post'); ?>",
               type: 'POST',
               data: formData,
               cache: false,
@@ -1098,7 +1098,7 @@
       // Save video handler
       $('#saveVideoBtn').click(function() {
         $.ajax({
-          url: "<?= site_url('/api/video/post'); ?>",
+          url: "<?= api_url('video/post'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
@@ -1314,7 +1314,7 @@
   <script>
     $(function() {
       $.ajax({
-        url: "<?= site_url('/api/video/get'); ?>",
+        url: "<?= api_url('video/get'); ?>",
         type: 'GET',
         dataType: 'json',
         success: function(results) {
@@ -1565,7 +1565,7 @@
         }
 
         $.ajax({
-          url: "<?= site_url('/api/reaction/post'); ?>",
+          url: "<?= api_url('reaction/post'); ?>",
           type: 'POST',
           // dataType: 'json',
           data: {
@@ -1737,7 +1737,7 @@
     $(function() {
       $.getReactions = function(videoId) {
         $.ajax({
-          url: "<?= site_url('/api/reaction/get'); ?>",
+          url: "<?= api_url('reaction/get'); ?>",
           type: 'POST',
           data: {
             videoId: videoId
@@ -1766,7 +1766,7 @@
 
       $.getComments = function(videoId) {
         $.ajax({
-          url: "<?= site_url('/api/comment/get'); ?>",
+          url: "<?= api_url('comment/get'); ?>",
           type: 'POST',
           data: {
             videoId: videoId

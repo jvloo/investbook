@@ -200,7 +200,7 @@
         }
 
         $.ajax({
-          url: "<?= site_url('/api/user/post'); ?>",
+          url: "<?= api_url('user/post'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {

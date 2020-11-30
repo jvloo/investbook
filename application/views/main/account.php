@@ -43,11 +43,11 @@
     <div class="app-content" style="margin-top: 100px;">
       <div class="text-center">
         <div class="account-avatar">
-          <img id="avatarImage" src="<?= $user['avatar_url']; ?>" width="150" height="150">
+          <img id="avatarImage" src="<?= $user['avatarUrl']; ?>" width="150" height="150">
         </div>
         <div class="account-info mt-2">
           <div id="accountFullName" class="account-fullname">
-            <?= $user['full_name']; ?>
+            <?= $user['fullName']; ?>
           </div>
           <div id="accountUsername" class="account-username text-muted">
             <?= $user['username']; ?>
@@ -492,7 +492,7 @@
 
             // Save video to database
             $.ajax({
-              url: "<?= site_url('/api/file/post'); ?>",
+              url: "<?= api_url('file/post'); ?>",
               type: 'POST',
               data: formData,
               cache: false,
@@ -612,7 +612,7 @@
       // Save video handler
       $('#saveVideoBtn').click(function() {
         $.ajax({
-          url: "<?= site_url('/api/video/post'); ?>",
+          url: "<?= api_url('video/post'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
@@ -947,7 +947,7 @@
         $(this).removeClass('is-valid is-invalid');
 
         $.ajax({
-          url: "<?= site_url('/api/user/get'); ?>",
+          url: "<?= api_url('user/get'); ?>",
           type: 'POST',
           dataType: 'json',
           data: {
