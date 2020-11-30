@@ -85,12 +85,19 @@ class Comment extends CI_Controller
 	{
 		$this->load->helper('date');
 
-		$videoId = $this->input->post('videoId');
-		$userId  = $this->input->post('userId');
+		$videoId   = $this->input->post('videoId');
+		$commentId = $this->input->post('commentId');
+
+		if (! empty($videoId)) {
+			$this->db->where('video_id', $videoId);
+		}
+
+		if (! empty($commentId)) {
+			$this->db->where('comment_id', $commentId);
+		}
 
 		// Get all comments
 		$comments = $this->db
-			->where('video_id', $videoId)
 			->get('comment')
 			->result_array();
 
