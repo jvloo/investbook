@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+header("Access-Control-Allow-Origin: *");
+
 class Reaction extends CI_Controller
 {
 	/**
@@ -16,7 +18,7 @@ class Reaction extends CI_Controller
 		$userReaction = false;
 
 		// Get user id
-		$userId = $this->session->userdata('userId');
+		$userId = $this->input->post('userId');
 
 		// Get all reactions
 		$reactions = $this->db

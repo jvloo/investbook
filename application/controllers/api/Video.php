@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+header("Access-Control-Allow-Origin: *");
+
 class Video extends CI_Controller
 {
 	/**

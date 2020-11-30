@@ -1,28 +1,30 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+header("Access-Control-Allow-Origin: *");
+
 class File extends CI_Controller
 {
 	public function post()
 	{
 		$action = $this->input->post('action');
+		$userId = $this->input->post('userId');
 
 		if ($action == 'video') {
-			$this->uploadVideo();
+			$this->uploadVideo($userId);
 		} else if ($action == 'avatar') {
-			$this->uploadAvatar();
+			$this->uploadAvatar($userId);
 		}
 	}
 
 	/**
 	 * Upload video onto the server.
 	 */
-	private function uploadVideo()
+	private function uploadVideo($userId)
 	{
     $this->load->helper('date');
 
 		// Get user id
-		$userId = $this->session->userdata('userId');
 		if (empty($userId)) {
 			echo json_encode([ 'error' => 'Please login your account.' ]);
 			return;
@@ -70,12 +72,11 @@ class File extends CI_Controller
 	/**
 	 * Upload profile avatar onto the server.
 	 */
-	private function uploadAvatar()
+	private function uploadAvatar($userId)
 	{
 		$this->load->helper('date');
 
 		// Get user id
-		$userId = $this->session->userdata('userId');
 		if (empty($userId)) {
 			echo json_encode([ 'error' => 'Please login your account.' ]);
 			return;

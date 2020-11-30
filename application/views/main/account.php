@@ -254,6 +254,7 @@
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
           <?php echo form_open_multipart(api_url('file/post'), ' id="uploadVideoForm"'); ?>
             <input type="hidden" name="action" value="video">
+            <input type="hidden" name="userId" value="<?= $this->session->userdata('userId'); ?>">
             <div class="card card-body form-group">
               <label for="videoUploadFile">Select your video file</label>
               <input type="file" id="videoUploadFile" class="form-control-file" name="uploadVideo">
@@ -794,6 +795,7 @@
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
           <?php echo form_open_multipart(api_url('file/post'), ' id="changeAvatarForm"'); ?>
             <input type="hidden" name="action" value="avatar">
+            <input type="hidden" name="userId" value="<?= $this->session->userdata('userId'); ?>">
             <div class="card card-body form-group">
               <label for="avatarUploadFile">Select your image file</label>
               <input type="file" id="avatarUploadFile" class="form-control-file" name="uploadImage">
@@ -895,6 +897,7 @@
         </div>
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
           <?php echo form_open(api_url('user/update'), ' id="editProfileForm"'); ?>
+            <input type="hidden" name="userId" value="<?= $this->session->userdata('userId'); ?>">
             <div class="form-group">
               <label for="newFullName">Full Name</label>
               <input type="text" id="newFullName" class="form-control" name="fullName" autofocus>

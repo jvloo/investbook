@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+header("Access-Control-Allow-Origin: *");
+
 class Comment extends CI_Controller
 {
 	/**
@@ -11,6 +13,7 @@ class Comment extends CI_Controller
 		$this->load->helper('date');
 
 		$videoId = $this->input->post('videoId');
+		$userId  = $this->input->post('userId');
 
 		// Get all comments
 		$comments = $this->db
@@ -49,7 +52,7 @@ class Comment extends CI_Controller
 
 			// Check if current user is the author
 			$isOwner    = false;
-			$currUserId = $this->session->userdata('userId');
+			$currUserId = $userId;
 
 			if ($authorId == $currUserId) {
 				$isOwner = true;
@@ -88,7 +91,7 @@ class Comment extends CI_Controller
 		$comment = $this->input->post('comment');
 
 		// Get user id
-		$userId = $this->session->userdata('userId');
+		$userId = $this->input->post('userId');
 		if (empty($userId)) {
 			echo json_encode([ 'error' => 'Please login your account.' ]);
 			return;
@@ -124,7 +127,7 @@ class Comment extends CI_Controller
 
 		// Check if current user is the author
 		$isOwner    = false;
-		$currUserId = $this->session->userdata('userId');
+		$currUserId = $userId;
 
 		if ($authorId == $currUserId) {
 			$isOwner = true;

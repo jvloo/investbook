@@ -281,7 +281,8 @@
           dataType: 'json',
           data: {
             videoId: videoId,
-            comment: input.val()
+            comment: input.val(),
+            userId: <?= $this->session->userdata('userId'); ?>
           },
           success: function(data) {
             if (data.error) {
@@ -740,6 +741,7 @@
         <div class="card-body position-relative h-100" style="margin-top: 4rem; margin-bottom: 4rem;">
           <?php echo form_open_multipart(api_url('file/post'), ' id="uploadVideoForm"'); ?>
             <input type="hidden" name="action" value="video">
+            <input type="hidden" name="userId" value="<?= $this->session->userdata('userId'); ?>">
             <div class="card card-body form-group">
               <label for="videoUploadFile">Select your video file</label>
               <input type="file" id="videoUploadFile" class="form-control-file" name="uploadVideo">
@@ -1740,7 +1742,8 @@
           url: "<?= api_url('reaction/get'); ?>",
           type: 'POST',
           data: {
-            videoId: videoId
+            videoId: videoId,
+            userId: <?= $this->session->userdata('userId'); ?>
           },
           // dataType: 'json',
           success: function(response) {
@@ -1769,7 +1772,8 @@
           url: "<?= api_url('comment/get'); ?>",
           type: 'POST',
           data: {
-            videoId: videoId
+            videoId: videoId,
+            userId: <?= $this->session->userdata('userId'); ?>
           },
           // dataType: 'json',
           success: function(response) {
