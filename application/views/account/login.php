@@ -211,6 +211,9 @@
           success: function(data) {
             if (data.redirectUrl) {
               $('#pageLoadingModal').modal('show');
+
+              document.cookie = "userId="+data.userId;
+
               window.location.replace(data.redirectUrl);
             } else {
               alert(data.errorMessage);

@@ -96,7 +96,9 @@ class User extends CI_Controller
 
 		// Return results
 		echo json_encode([
-			'redirectUrl' => site_url('main/account')
+			// 'redirectUrl' => site_url('main/account')
+			'redirectUrl' => 'http://investbook.herokuapp.com/main/account',
+			'userId'		  => $userId
 		]);
 	}
 
@@ -131,7 +133,9 @@ class User extends CI_Controller
 
 		// Return results
 		echo json_encode([
-			'redirectUrl' => site_url('main')
+			// 'redirectUrl' => site_url('main')
+			'redirectUrl' => 'http://investbook.herokuapp.com/main',
+			'userId'		  => $userId
 		]);
 	}
 
