@@ -5,30 +5,114 @@ class Analysis extends CI_Controller
 {
 	public function comment()
 	{
-    $root = FCPATH;
-
 		$videoId   = $this->input->post('videoId');
 		$commentId = $this->input->post('commentId');
 
 		// $videoId   = 2;
 		// $commentId = 1;
 
-    /**
-     * Run sentimental analysis on the comment
-     *
-     * The Python script will calculate the metric score of the new comment,
-     * then refresh the Top 5 keywords among all the comments of the video.
-     */
-		$data = [
-			'videoId'   => $videoId,
-			'commentId' => $commentId
-		];
+		// Get content of the comment
+		// $content = $this->db
+		// 	->where('id', $commentId)
+		// 	->get('comment')
+		// 	->row('content');
 
-		// if (ENVIRONMENT == 'development') {
-			$commentMetricScore = shell_exec("python $root/src/sentiAnalysis-MySQL.py " . base64_encode(json_encode($data)));
-		// } else {
-			// $commentMetricScore = shell_exec("python https://investbook.herokuapp.com/src/sentiAnalysis-API.py " . base64_encode(json_encode($data)));
-		// }
+		// Create a new cURL resource
+		$ch   = curl_init(api_url('comment/get'));
+
+		// Setup request to send JSON via POST
+		$data = http_build_query([ 'commentId' => $commentId ]);
+		$payload = json_encode([ 'data' => $data ]);
+
+		// Attach encoded JSON string to the POST fields
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+		// Set the content type to application/json
+		// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
+
+		// Return response instead of output string
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		// Execute the POST request
+		$response = curl_exec($ch);
+		$comment = json_decode($response, true);
+
+		$content = $comment['content'];
+
+		// Get all comments of the video
+		$comments = [];
+		// $commentQuery = $this->db
+		// 	->where('video_id', $videoId)
+		// 	->get('comment');
+
+		// Create a new cURL resource
+		$ch   = curl_init(api_url('comment/get'));
+
+		// Setup request to send JSON via POST
+		$data = http_build_query([ 'videoId' => $videoId ]);
+		$payload = json_encode([ 'data' => $data ]);
+
+		// Attach encoded JSON string to the POST fields
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+		// Set the content type to application/json
+		// curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ]);
+
+		// Return response instead of output string
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		// Execute the POST request
+		$response = curl_exec($ch);
+		$response = json_decode($response, true);
+
+		foreach ($response as $comment) {
+			$comments[] = $comment['content'];
+		}
+
+		// Run analysis
+		$results  = $this->runAnalysis($content, $comments);
+
+		print_r($results);
+		return;
+
+		$score    = $results['score'];
+		$keywords = $results['keywords'];
+
+
+		// Update the score of the comment
+		$this->db->where('id', $commentId);
+		$this->db->update('comment', [ 'score' => $score ]);
+
+		// Set the comment as last comment of the video
+		$this->setVideoLastComment($commentId, $videoId);
+
+		// Refresh keywords of the video
+		foreach ($keywords as $keyword) {
+			$content = $keyword[0];
+			$count   = $keyword[1];
+
+			// Check if keyword already exists
+			$keyword = $this->db
+				->where('video_id', $videoId)
+				->like('content', $content)
+				->get('keyword')
+				->row_array();
+
+			if (! empty($keyword)) {
+				// Update keyword count
+				$this->db->where('id', $keyword['id']);
+				$this->db->update('keyword', [ 'count' => $count ]);
+			} else {
+				// Create new keyword
+				$this->db->insert('keyword', [
+					'video_id' => $videoId,
+					'content'  => $content,
+					'count'    => $count
+				]);
+			}
+		}
 
 		// Update the metric score of the video
 		$this->updateMetricScore($videoId);
