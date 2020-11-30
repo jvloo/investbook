@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+header("Access-Control-Allow-Origin: *");
+
 class User extends CI_Controller
 {
 	/**
@@ -9,8 +11,6 @@ class User extends CI_Controller
 	 */
 	public function get()
 	{
-		header("Access-Control-Allow-Origin: *");
-
 		$username = $this->input->post('username');
 		$userId   = $this->input->post('userId');
 
