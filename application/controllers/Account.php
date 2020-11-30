@@ -26,6 +26,8 @@ class Account extends CI_Controller
 			redirect();
 		}
 
+		echo $this->session->userdata('userId');
+
 		// Load page view file
 		$this->load->view('account/login');
 	}

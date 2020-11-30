@@ -135,7 +135,7 @@ class User extends CI_Controller
 		echo json_encode([
 			// 'redirectUrl' => site_url('main')
 			'redirectUrl' => 'http://investbook.herokuapp.com/main',
-			'userId'		  => $userId
+			'userId'		  => $user->id
 		]);
 	}
 
