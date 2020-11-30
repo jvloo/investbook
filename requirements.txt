@@ -1,4 +1,5 @@
 nltk==3.5
-stopwords==3.5
-punkt==3.5
-vader_lexicon==3.5
+tokenize
+probability
+corpus
+punkt
