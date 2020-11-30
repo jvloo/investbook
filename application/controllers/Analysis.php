@@ -250,7 +250,7 @@ class Analysis extends CI_Controller
 			// 	->get('reaction')
 			// 	->result_array();
 			// Create a new cURL resource
-			$ch   = curl_init(api_url('reaction/get'));
+			$ch   = curl_init(api_url('reaction/get_raw'));
 
 			// Setup request to send JSON via POST
 			$data = http_build_query([ 'videoId' => $videoId ]);

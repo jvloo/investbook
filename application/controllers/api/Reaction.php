@@ -51,6 +51,19 @@ class Reaction extends CI_Controller
 		echo json_encode($results);
 	}
 
+	public function get_raw()
+	{
+		$videoId = $this->input->post('videoId');
+
+		// Get all reactions
+		$results = $this->db
+			->where('video_id', $videoId)
+			->get('reaction')
+			->result_array();
+
+		echo json_encode($results);
+	}
+
 	/**
 	 * Get last comment of a specific video
 	 */
