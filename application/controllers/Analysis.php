@@ -67,16 +67,20 @@ class Analysis extends CI_Controller
 		// Execute the POST request
 		$response = curl_exec($ch);
 		$response = json_decode($response, true);
-		print_r($response);
+
+		foreach ($response['comments'] as $comment) {
+			$comments[] = $comment['content'];
+		}
+
+		print_r($comments);
+
 	}
 
 	public function tmp()
 	{
 
 
-		foreach ($response as $comment) {
-			$comments[] = $comment['content'];
-		}
+
 
 		// Run analysis
 		$results  = $this->runAnalysis($content, $comments);
