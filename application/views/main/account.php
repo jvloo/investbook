@@ -954,7 +954,8 @@
           type: 'POST',
           dataType: 'json',
           data: {
-            username: $(btn).val()
+            username: $(btn).val(),
+            userId: <?= $this->session->userdata('userId')
           },
           success: function(data) {
             if (data.exist) {

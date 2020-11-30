@@ -41,7 +41,7 @@ class User extends CI_Controller
 
 			// If user is owner of the username
 			if (
-				! empty($userId = $this->session->userdata('userId'))
+				! empty($userId = $this->input->post('userId'))
 				&& $userId == $user->id
 			) {
 				$results['exist'] = false;
@@ -152,7 +152,7 @@ class User extends CI_Controller
 		}
 
 		// Update user
-		$userId = $this->session->userdata('userId');
+		$userId = $this->input->post('userId');
 
 		$this->db->where('id', $userId);
 		$this->db->update('user', $data);
