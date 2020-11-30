@@ -38,12 +38,8 @@ class Analysis extends CI_Controller
 		$response = curl_exec($ch);
 		$comment = json_decode($response, true);
 
-		print_r($comment);
-	}
+		$comment = $comment[0]['content'] ?? '';
 
-	public function tmp()
-	{
-		$content = $comment[0]['content'];
 
 		// Get all comments of the video
 		$comments = [];
@@ -71,6 +67,12 @@ class Analysis extends CI_Controller
 		// Execute the POST request
 		$response = curl_exec($ch);
 		$response = json_decode($response, true);
+		print_r($response);
+	}
+
+	public function tmp()
+	{
+
 
 		foreach ($response as $comment) {
 			$comments[] = $comment['content'];
