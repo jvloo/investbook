@@ -337,6 +337,8 @@
                 commentId: comment.commentId
               },
               success: function(response) {
+                console.log(response);
+                
                 response = JSON.parse(response);
                 console.log(response.plainText);
 
