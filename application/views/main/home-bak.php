@@ -10,13 +10,13 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-  <link rel="stylesheet" href="<?= base_url('assets/css/style.css?v=3'); ?>">
+  <link rel="stylesheet" href="<?= base_url('assets/css/style.css?v=2'); ?>">
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 </head>
 <body>
   <div id="app">
-    <link rel="stylesheet" href="<?= base_url('assets/css/home.css?v=3'); ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/home.css'); ?>">
     <style>
       .nav-link.reaction-btn,
       .nav-link.reaction-btn .nav-icon{
@@ -32,7 +32,7 @@
       <ul class="nav justify-content-center">
         <!-- App Brand -->
         <li class="nav-item mr-auto">
-          <div class="app-brand">
+          <div class="app-brand" style="transform: scale(0.5);">
             <svg width="75" height="54" viewBox="0 0 75 54">
               <g transform="matrix(0.7233899238224564,0,0,0.7233899238224564,-3.6892885425066884,-8.970036159203884)" fill="#f8b500"><path xmlns="http://www.w3.org/2000/svg" d="M8.4,87.6c-0.5,0-0.9-0.1-1.2-0.2c-0.6-0.3-2.1-1.1-2.1-3.5V29.7c0-9.5,7.8-17.3,17.3-17.3h55.1c9.5,0,17.3,7.8,17.3,17.3  V53c0,9.5-7.8,17.3-17.3,17.3h-49c-0.7,0-2,0.5-2.4,1l-15,15C10.2,87.3,9.2,87.6,8.4,87.6z M22.5,17.4c-6.8,0-12.3,5.5-12.3,12.3  v50.5l12.5-12.5c1.4-1.4,4-2.5,6-2.5h49c6.8,0,12.3-5.5,12.3-12.3V29.7c0-6.8-5.5-12.3-12.3-12.3H22.5z"></path><path xmlns="http://www.w3.org/2000/svg" d="M14.3,68.4c-0.4,0-0.8-0.1-1.2-0.3c-1.2-0.7-1.6-2.2-0.9-3.4l11.7-20.3c0.4-0.7,1-1.1,1.8-1.2c0.7-0.1,1.5,0.1,2.1,0.6  l8.7,7.7l9.5-16.1c0.4-0.6,1-1.1,1.8-1.2c0.7-0.1,1.5,0.1,2,0.6l10.5,9.1l19.6-20.3c1-1,2.5-1,3.5-0.1s1,2.5,0.1,3.5l-21.2,22  c-0.9,1-2.4,1-3.4,0.2l-10-8.7l-9.5,16.1c-0.4,0.6-1,1.1-1.8,1.2c-0.7,0.1-1.5-0.1-2-0.6l-8.7-7.6L16.5,67.1  C16,67.9,15.2,68.4,14.3,68.4z"></path><path xmlns="http://www.w3.org/2000/svg" d="M81.5,42.7c-1.4,0-2.5-1.1-2.5-2.5V27.7H66.5c-1.4,0-2.5-1.1-2.5-2.5s1.1-2.5,2.5-2.5h15c1.4,0,2.5,1.1,2.5,2.5v15  C84,41.6,82.9,42.7,81.5,42.7z"></path></g>
             </svg>
@@ -48,7 +48,7 @@
         </li>
         <li class="nav-item ml-auto">
           <!-- Alignment Spacer -->
-          <div class="app-brand"></div>
+          <div style="width: 75px;"></div>
         </li>
       </ul>
     </div>
@@ -1123,7 +1123,7 @@
                 <source src="${data.sourceUrl}" type="video/mp4">
               </video>
               <div class="video-overlay-layer js-touch-layer" style="z-index: 2;">
-                <div class="video-content row no-gutters w-100">
+                <div class="row no-gutters w-100" style="margin-bottom: 50px;">
                   <div class="col-10 d-flex align-items-end">
                     <div class="card">
                       <div class="card-header">
@@ -1332,7 +1332,7 @@
                 <source src="${data.sourceUrl}" type="video/mp4">
               </video>
               <div class="video-overlay-layer js-touch-layer" style="z-index: 2;">
-                <div class="video-content row no-gutters w-100">
+                <div class="row no-gutters w-100" style="margin-bottom: 50px;">
                   <div class="col-10 d-flex align-items-end">
                     <div class="card">
                       <div class="card-header">
