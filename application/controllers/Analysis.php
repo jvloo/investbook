@@ -39,7 +39,7 @@ class Analysis extends CI_Controller
 		$response = json_decode(curl_exec($ch), true);
 
 		$comments = [];
-		foreach ($response['comments'] as $comment) {
+		foreach ($response as $comment) {
 			$comments[] = $comment['content'];
 		}
 
