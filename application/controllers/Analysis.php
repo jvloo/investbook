@@ -66,11 +66,8 @@ class Analysis extends CI_Controller
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-		$result = curl_exec($ch);
-
-		print_r($result);
-		return;
-
+		curl_exec($ch);
+		
 		// Set the comment as last comment of the video
 		$this->setVideoLastComment($commentId, $videoId);
 
