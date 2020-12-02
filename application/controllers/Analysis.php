@@ -89,12 +89,9 @@ class Analysis extends CI_Controller
 
 			$keyword = json_decode(curl_exec($ch), true);
 
-			echo "$content";
-			print_r($keyword); // DEBUG
-
 			if (! empty($keyword)) {
 				// Update keyword count
-				$ch   = curl_init(api_url('analysis/keyword/get'));
+				$ch   = curl_init(api_url('analysis/keyword/update'));
 				$data = http_build_query([
 					'keyword_id' => $keyword[0]['id'],
 					'count'      => $count
@@ -119,7 +116,8 @@ class Analysis extends CI_Controller
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-				curl_exec($ch);
+				$status = curl_exec($ch);
+				print_r($status);
 			}
 		}
 
