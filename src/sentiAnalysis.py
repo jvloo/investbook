@@ -57,7 +57,7 @@ def getVideoKeywords(comments):
     wordsFiltered = []
     topkeywords = []
 
-    newStrings = [', '.join(word) for word in [word_tokenize(content) for comment in comments]]
+    newStrings = [', '.join(word) for word in [word_tokenize(comment) for comment in comments]]
 
     for newString in newStrings:
         newString = word_tokenize(newString)
@@ -88,7 +88,17 @@ if __name__ == '__main__':
 
     # DEBUG
     # content  = "Hello everyone"
-    # comments = ["Not okay", "Say cheese", "Good video", "It's helpful", "Just a lier"]
+    # comments = [
+    #     "This is a neutral comment",
+    #     "Hi hello",
+    #     "lier haha",
+    #     "test",
+    #     "test again",
+    #     "This is a neutral comment",
+    #     "This is a negative comment lier",
+    #     "This is a positive comment",
+    #     "get the fucking keywords "
+    # ]
 
     # Analyze comment content and get the metric score
     score = textAnalysis(content)

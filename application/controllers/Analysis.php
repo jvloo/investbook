@@ -71,9 +71,6 @@ class Analysis extends CI_Controller
 		// Set the comment as last comment of the video
 		$this->setVideoLastComment($commentId, $videoId);
 
-		print_r($comments);
-		print_r($keywords);
-
 		// Refresh keywords of the video
 		foreach ($keywords as $keyword) {
 			$content = $keyword[0];
