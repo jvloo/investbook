@@ -67,9 +67,12 @@ class Analysis extends CI_Controller
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
 		curl_exec($ch);
-		
+
 		// Set the comment as last comment of the video
 		$this->setVideoLastComment($commentId, $videoId);
+
+		print_r($comments);
+		print_r($keywords);
 
 		// Refresh keywords of the video
 		foreach ($keywords as $keyword) {
