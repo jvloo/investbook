@@ -55,9 +55,6 @@ class Analysis extends CI_Controller
 		$score    = $response['score'];
 		$keywords = $response['keywords'];
 
-		print_r($response);
-		return;
-
 		// Update the score of the comment
 		$ch   = curl_init(api_url('analysis/comment/update'));
 		$data = http_build_query([
@@ -69,7 +66,10 @@ class Analysis extends CI_Controller
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-		curl_exec($ch);
+		$result = curl_exec($ch);
+
+		print_r(curl_getinfo($ch, CURLINFO_HTTP_CODE));
+		return;
 
 		// Set the comment as last comment of the video
 		$this->setVideoLastComment($commentId, $videoId);
