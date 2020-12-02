@@ -55,6 +55,9 @@ class Analysis extends CI_Controller
 		$score    = $response['score'];
 		$keywords = $response['keywords'];
 
+		print_r($response);
+		return;
+
 		// Update the score of the comment
 		$ch   = curl_init(api_url('analysis/comment/update'));
 		$data = http_build_query([
