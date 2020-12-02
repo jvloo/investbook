@@ -71,6 +71,8 @@ class Analysis extends CI_Controller
 		// Set the comment as last comment of the video
 		$this->setVideoLastComment($commentId, $videoId);
 
+		print_r($keywords); // DEBUG
+
 		// Refresh keywords of the video
 		foreach ($keywords as $keyword) {
 			$content = $keyword[0];
@@ -90,6 +92,8 @@ class Analysis extends CI_Controller
 			$keyword = json_decode(curl_exec($ch), true);
 
 			if (! empty($keyword)) {
+				print_r($keyword); // DEBUG
+
 				// Update keyword count
 				$ch   = curl_init(api_url('analysis/keyword/get'));
 				$data = http_build_query([
