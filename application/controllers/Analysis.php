@@ -50,6 +50,7 @@ class Analysis extends CI_Controller
 		];
 
 		$response = shell_exec("python $root/src/sentiAnalysis.py " . base64_encode(json_encode($data)));
+		$response = json_decode($response, true);
 
 		$score    = $response['score'];
 		$keywords = $response['keywords'];
