@@ -11,21 +11,21 @@ from nltk.probability import FreqDist
 try:
     nltk.data.find('sentiment/vader_lexicon.zip')
 except :
-    print('Downloading... vader module')
+    # print('Downloading... vader module')
     nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 try:
     nltk.data.find('/corpora/stopwords')
 except:
-    print('Downloading... stopwords module')
+    # print('Downloading... stopwords module')
     nltk.download('stopwords')
 from nltk.corpus import stopwords
 
 try:
     nltk.data.find('/tokenizers/punkt')
 except:
-    print('Downloading... punkt module')
+    # print('Downloading... punkt module')
     nltk.download('punkt')
 
 ## =========================================================================
