@@ -68,7 +68,7 @@ class Analysis extends CI_Controller
 
 		$result = curl_exec($ch);
 
-		print_r(curl_getinfo($ch, CURLINFO_HTTP_CODE));
+		print_r($result);
 		return;
 
 		// Set the comment as last comment of the video
