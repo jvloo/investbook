@@ -86,6 +86,10 @@ if __name__ == '__main__':
     content  = data['content']
     comments = data['comments']
 
+    # DEBUG
+    # content  = "Hello everyone"
+    # comments = ["Not okay", "Say cheese", "Good video", "It's helpful", "Just a lier"]
+
     # Analyze comment content and get the metric score
     score = textAnalysis(content)
 
